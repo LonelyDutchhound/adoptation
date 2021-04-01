@@ -1,7 +1,5 @@
 package com.lonelydutchhound.adoptation.model;
 
-import com.lonelydutchhound.adoptation.constants.PetSize;
-import com.lonelydutchhound.adoptation.constants.Species;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
