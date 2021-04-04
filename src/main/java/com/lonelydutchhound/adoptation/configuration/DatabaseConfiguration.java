@@ -19,9 +19,6 @@ import java.util.Map;
 )
 public class DatabaseConfiguration {
 
-    @Value("${db.driver-class-name}")
-    private String driverClassName;
-
     @Value("${db.url}")
     private String dbURL;
 
@@ -34,15 +31,12 @@ public class DatabaseConfiguration {
     @Value("${db.show-sql:false}")
     private boolean isShowSQL;
 
-    @Value("${db.dialect}")
-    private String dbDialect;
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
         dataSource.setUrl(dbURL);
-        dataSource.setDriverClassName(driverClassName);
+        dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUsername(dbUsername);
         dataSource.setPassword(dbPassword);
 
@@ -62,7 +56,7 @@ public class DatabaseConfiguration {
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "none");
         properties.put("hibernate.show_sql", isShowSQL);
-        properties.put("hibernate.dialect", dbDialect);
+        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 
         em.setJpaPropertyMap(properties);
 

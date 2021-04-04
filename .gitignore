@@ -1,4 +1,6 @@
 # Default ignored files
 .idea/
 target/
-logFile.log
+*.log
+*.iml
+*.jar
