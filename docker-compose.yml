@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_USER: server # имя пользователя для подключения
       POSTGRES_PASSWORD: password # пароль для подключения
-      POSTGRES_DB: database # имя базы данных при первом запуске образа
+      POSTGRES_DB: adoptation # имя базы данных при первом запуске образа
     ports:
       - 6432:5432 # порт для подключения
     volumes:
