@@ -3,13 +3,29 @@ services:
   db:
     image: library/postgres:13-alpine # название образа
     environment:
-      POSTGRES_USER: server # имя пользователя для подключения
-      POSTGRES_PASSWORD: password # пароль для подключения
-      POSTGRES_DB: adoptation # имя базы данных при первом запуске образа
+      POSTGRES_USER: server
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: adoptation
+    networks:
+      - adoptation
     ports:
-      - 6432:5432 # порт для подключения
+      - 6432:5432
     volumes:
-      - data:/var/lib/postgresql/data # метка на образ диска для сохранения персистентности
+      - data:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    networks:
+      - adoptation
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
 
-volumes: # название папки для метки хранения данных
+volumes:
   data: {}
+
+networks:
+  adoptation: {}
+

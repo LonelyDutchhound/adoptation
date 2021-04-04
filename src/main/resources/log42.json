@@ -1,8 +1,8 @@
 {
   "configuration": {
     "status": "error",
-    "name": "JSONConfigDemo",
-    "packages": "com.howtodoinjava",
+    "name": "adoptation",
+    "packages": "com.lonelydutchhound.adoptation",
     "ThresholdFilter": {
       "level": "debug"
     },
