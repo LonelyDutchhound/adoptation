@@ -17,7 +17,7 @@ public class PetController {
 
     @GetMapping("/pets")
     private @ResponseBody
-    List<Pet> getAllPets(){
+    List<Pet> getAllPets() {
         return petService.getAllPets();
     }
 }

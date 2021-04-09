@@ -13,7 +13,7 @@ public class PetService {
     @Autowired
     private PetRepository petRepository;
 
-    public List<Pet> getAllPets(){
+    public List<Pet> getAllPets() {
         return (List<Pet>) petRepository.findAll();
     }
 }

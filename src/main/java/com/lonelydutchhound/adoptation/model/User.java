@@ -1,6 +1,7 @@
 package com.lonelydutchhound.adoptation.model;
 
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
@@ -13,32 +14,41 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Getter @Setter
+    @Getter
+    @Setter
     private UUID id;
 
     @Column(name = "first_name")
-    @Getter @Setter
-    @NonNull private String firstName;
+    @Getter
+    @Setter
+    @NonNull
+    private String firstName;
 
     @Column(name = "last_name")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String lastName;
 
     @Column(name = "phone_number")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String phoneNumber;
 
     @Column
-    @Getter @Setter
-    @NonNull private String email;
+    @Getter
+    @Setter
+    @NonNull
+    private String email;
 
     @Column(name = "is_handler")
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean isHandler;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.DATE)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date createdAt;
 
     public User(@NonNull String firstName, @NonNull String email) {

@@ -15,5 +15,4 @@ public class AdoptionApplication {
         SpringApplication.run(AdoptionApplication.class, args);
     }
 
-
 }
