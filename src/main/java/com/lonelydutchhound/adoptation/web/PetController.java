@@ -1,4 +1,4 @@
-package com.lonelydutchhound.adoptation.controllers;
+package com.lonelydutchhound.adoptation.web;
 
 import com.lonelydutchhound.adoptation.model.Pet;
 import com.lonelydutchhound.adoptation.services.PetService;

@@ -1,7 +1,7 @@
 package com.lonelydutchhound.adoptation.services;
 
 import com.lonelydutchhound.adoptation.model.Pet;
-import com.lonelydutchhound.adoptation.repos.PetRepository;
+import com.lonelydutchhound.adoptation.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,0 +1,12 @@
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "password"
+}
+
+### Check
+
+GET http://localhost:8080
+Authorization: Basic dXNlcjpwYXNzd29yZA==

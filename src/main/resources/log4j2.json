@@ -1,25 +1,24 @@
 {
   "configuration": {
-    "status": "error",
-    "name": "adoptation",
-    "packages": "com.lonelydutchhound.adoptation",
-    "ThresholdFilter": {
-      "level": "debug"
-    },
+    "name": "Default",
     "appenders": {
       "Console": {
-        "name": "STDOUT",
+        "name": "Console-Appender",
+        "target": "SYSTEM_OUT",
         "PatternLayout": {
-          "pattern": "%d [%t] %-5p %c - %m%n"
+          "pattern": "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
         }
-      }
+      },
     },
     "loggers": {
+      "logger": {
+        "name": "com.lonelydutchhound.adoptation",
+        "level": "debug",
+        "appender-ref": {"ref": "Console-Appender"}
+      },
       "root": {
         "level": "debug",
-        "AppenderRef": {
-          "ref": "STDOUT"
-        }
+        "appender-ref": {"ref": "Console-Appender"}
       }
     }
   }
