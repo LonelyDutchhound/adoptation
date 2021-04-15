@@ -9,6 +9,7 @@ import java.util.UUID;
 @Entity
 @ToString
 @Table(name = "pets")
+@NoArgsConstructor
 public class Pet {
 
     @Id
