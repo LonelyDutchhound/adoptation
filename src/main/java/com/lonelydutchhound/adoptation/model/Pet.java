@@ -5,73 +5,99 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
+@Getter
 @Entity
 @ToString
-@NoArgsConstructor
 @Table(name = "pets")
 public class Pet {
 
     @Id
     @GeneratedValue
-    @Getter @Setter
     private UUID id;
 
     @Column
-    @Getter @Setter
-    @NonNull private String name;
+    private String name;
 
     @Column
-    @Getter @Setter
     private String breed;
 
     @Column(name = "handlers_id")
-    @Getter @Setter
     private UUID handlerId;
 
     @Column
-    @Getter @Setter
     private boolean adopted;
 
     @Column
     @Enumerated(EnumType.STRING)
-    @Getter @Setter
-    @NonNull private Species species;
+    private Species species;
 
     @Column
     @Enumerated(EnumType.STRING)
-    @Getter @Setter
-    @NonNull private PetSize size;
+    private PetSize size;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.DATE)
-    @Getter @Setter
     private Date createdAt;
 
-    public Pet(@NonNull String name, UUID handlerId, @NonNull Species species) {
-        this.name = name;
-        this.handlerId = handlerId;
-        this.species = species;
+    private Pet(PetBuilder builder) {
+        name = builder.name;
+        breed = builder.breed;
+        handlerId = builder.handlerId;
+        adopted = builder.adopted;
+        species = builder.species;
+        size = builder.size;
     }
 
-    public Pet(@NonNull String name, String breed, UUID handlerId, @NonNull Species species) {
-        this.name = name;
-        this.breed = breed;
-        this.handlerId = handlerId;
-        this.species = species;
-    }
+    @NoArgsConstructor
+    public static class PetBuilder {
 
-    public Pet(@NonNull String name, UUID handlerId, @NonNull Species species, @NonNull PetSize size) {
-        this.name = name;
-        this.handlerId = handlerId;
-        this.species = species;
-        this.size = size;
-    }
+        private String name;
+        private String breed;
+        private UUID handlerId;
+        private boolean adopted;
+        private Species species;
+        private PetSize size;
 
-    public Pet(@NonNull String name, String breed, UUID handlerId, @NonNull Species species, @NonNull PetSize size) {
-        this.name = name;
-        this.breed = breed;
-        this.handlerId = handlerId;
-        this.species = species;
-        this.size = size;
+        public PetBuilder setName(String name) {
+            this.name = name;
+
+            return this;
+        }
+
+        public PetBuilder setBreed(String breed) {
+            this.breed = breed;
+
+            return this;
+        }
+
+        public PetBuilder setHandlerId(UUID handlerId) {
+            this.handlerId = handlerId;
+
+            return this;
+        }
+
+        public PetBuilder setAdopted(boolean adopted) {
+            this.adopted = adopted;
+
+            return this;
+        }
+
+        public PetBuilder setSpecies(Species species) {
+            this.species = species;
+
+            return this;
+        }
+
+        public PetBuilder setSize(PetSize size) {
+            this.size = size;
+
+            return this;
+        }
+
+
+        public Pet build() {
+            return new Pet(this);
+        }
+
     }
 }

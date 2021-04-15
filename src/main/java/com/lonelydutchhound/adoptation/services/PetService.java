@@ -14,6 +14,14 @@ public class PetService {
     private PetRepository petRepository;
 
     public List<Pet> getAllPets(){
-        return (List<Pet>) petRepository.findAll();
+        return petRepository.findAll();
+    }
+
+    public Pet savePet(Pet pet) { return petRepository.saveAndFlush(pet); }
+
+    public List<Pet> searchByName(String name) {
+        List<Pet> pets = petRepository.searchByName(name);
+        System.out.println(pets);
+        return petRepository.searchByName(name);
     }
 }
