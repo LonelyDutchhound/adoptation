@@ -1,5 +1,7 @@
 package com.lonelydutchhound.adoptation.model;
 
+import com.lonelydutchhound.adoptation.model.enums.PetSize;
+import com.lonelydutchhound.adoptation.model.enums.SpeciesType;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
@@ -25,12 +27,27 @@ public class Pet {
     @Column(name = "handlers_id")
     private UUID handlerId;
 
+    @Column(name="first_name")
+    String handlerFirstName;
+
+    @Column(name="last_name")
+    String handlerLastName;
+
+    @Column
+    String email;
+
+    @Column
+    String phone;
+
     @Column
     private boolean adopted;
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Species species;
+    private SpeciesType species;
+
+    @Column(name="species_id")
+    private UUID speciesId;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -45,7 +62,7 @@ public class Pet {
         breed = builder.breed;
         handlerId = builder.handlerId;
         adopted = builder.adopted;
-        species = builder.species;
+        speciesId = builder.speciesId;
         size = builder.size;
     }
 
@@ -56,8 +73,8 @@ public class Pet {
         private String breed;
         private UUID handlerId;
         private boolean adopted;
-        private Species species;
         private PetSize size;
+        private UUID speciesId;
 
         public PetBuilder setName(String name) {
             this.name = name;
@@ -83,8 +100,8 @@ public class Pet {
             return this;
         }
 
-        public PetBuilder setSpecies(Species species) {
-            this.species = species;
+        public PetBuilder setSpeciesId(UUID speciesId) {
+            this.speciesId = speciesId;
 
             return this;
         }

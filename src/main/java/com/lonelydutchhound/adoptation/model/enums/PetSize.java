@@ -1,4 +1,4 @@
-package com.lonelydutchhound.adoptation.model;
+package com.lonelydutchhound.adoptation.model.enums;
 
 public enum PetSize {
     TINY,

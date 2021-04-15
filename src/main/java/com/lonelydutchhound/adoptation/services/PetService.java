@@ -21,7 +21,7 @@ public class PetService {
 
     public List<Pet> searchByName(String name) {
         List<Pet> pets = petRepository.searchByName(name);
-        System.out.println(pets);
+
         return petRepository.searchByName(name);
     }
 }

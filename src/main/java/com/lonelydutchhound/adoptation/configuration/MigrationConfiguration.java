@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class MigrationConfiguration {
 
-
     @Primary
     @Bean
     public FlywayProperties flywayProperties() {

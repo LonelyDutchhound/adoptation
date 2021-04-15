@@ -1,18 +1,20 @@
-package com.lonelydutchhound.adoptation.controllers;
+package com.lonelydutchhound.adoptation.web.controllers;
 
 import com.lonelydutchhound.adoptation.model.Pet;
-import com.lonelydutchhound.adoptation.model.PetSize;
 import com.lonelydutchhound.adoptation.model.Species;
+import com.lonelydutchhound.adoptation.model.User;
+import com.lonelydutchhound.adoptation.model.enums.PetSize;
 import com.lonelydutchhound.adoptation.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import com.lonelydutchhound.adoptation.web.responses.PetResponse;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 public class PetController {
 
     @Autowired
@@ -20,8 +22,31 @@ public class PetController {
 
     @GetMapping("/pets")
     private @ResponseBody
-    List<Pet> getAllPets(){
-        return petService.getAllPets();
+    List<PetResponse> getAllPets(){
+        List<PetResponse> response = new LinkedList<>();
+        List<Pet> allPets = petService.getAllPets();
+
+        allPets.forEach(pet -> response.add(new PetResponse(
+            pet.getId(),
+            pet.getName(),
+            pet.getBreed(),
+            new User(
+                    pet.getHandlerId(),
+                    pet.getHandlerFirstName(),
+                    pet.getHandlerLastName(),
+                    pet.getPhone(),
+                    pet.getEmail()
+            ),
+            new Species(
+                    pet.getSpeciesId(),
+                    pet.getSpecies()
+            ),
+            pet.isAdopted(),
+            pet.getSize(),
+            pet.getCreatedAt()
+        )));
+
+        return response;
     }
 
     @GetMapping(value="/pets/search")
@@ -40,13 +65,13 @@ public class PetController {
             @RequestParam String name,
             @RequestParam(required = false) String breed,
             @RequestParam UUID handlerId,
-            @RequestParam Species species,
+            @RequestParam UUID speciesId,
             @RequestParam(required = false) PetSize petSize
             ) {
         Pet.PetBuilder petBuilder = new Pet.PetBuilder()
                 .setName(name)
                 .setHandlerId(handlerId)
-                .setSpecies(species);
+                .setSpeciesId(speciesId);
 
         if (breed != null && !breed.isBlank()) petBuilder.setBreed(breed);
         if (petSize != null) petBuilder.setSize(petSize);
