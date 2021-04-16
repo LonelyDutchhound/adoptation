@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS profile;
+
+ALTER TABLE users RENAME TO profile;
