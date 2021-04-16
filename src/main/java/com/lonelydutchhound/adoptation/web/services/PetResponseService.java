@@ -18,15 +18,7 @@ public class PetResponseService implements ResponseService<PetResponse, Pet> {
         User.UserBuilder userBuilder = new User.UserBuilder();
         User handler = userService.getUserById(pet.getHandlerId());
 
-//        User handler = userBuilder
-//                .setId(pet.getHandlerId())
-//                .setFirstName(pet.getHandlerFirstName())
-//                .setEmail(pet.getEmail())
-//                .setLastName(pet.getHandlerLastName())
-//                .setPhoneNumber(pet.getPhone())
-//                .build();
-
-        PetResponse petResponse = responseBuilder
+        return responseBuilder
                 .setId(pet.getId())
                 .setName(pet.getName())
                 .setBreed(pet.getBreed())
@@ -39,7 +31,5 @@ public class PetResponseService implements ResponseService<PetResponse, Pet> {
                 .setSize(pet.getSize())
                 .setCreatedAt(pet.getCreatedAt())
                 .build();
-
-        return petResponse;
     }
 }

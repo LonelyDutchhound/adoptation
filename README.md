@@ -1,6 +1,6 @@
 # Adoptation
 
-Backend part of an Adoptation project.
+Backend part of the Adoptation project.
 It helps handlers to manage pets who are going to be adopted.
 It helps people to find a new animal friend.
 
