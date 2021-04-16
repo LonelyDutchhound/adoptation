@@ -1,8 +1,12 @@
 package com.lonelydutchhound.adoptation.model;
 
 import com.lonelydutchhound.adoptation.model.enums.PetSize;
+import com.lonelydutchhound.adoptation.model.enums.PostgreSQLEnumType;
 import com.lonelydutchhound.adoptation.model.enums.SpeciesType;
 import lombok.*;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
@@ -12,6 +16,10 @@ import java.util.UUID;
 @ToString
 @Table(name = "pets")
 @NoArgsConstructor
+@TypeDef(
+        name = "pet_size",
+        typeClass = PostgreSQLEnumType.class
+)
 public class Pet {
 
     @Id
@@ -27,22 +35,22 @@ public class Pet {
     @Column(name = "handlers_id")
     private UUID handlerId;
 
-    @Column(name="first_name")
+    @Column(name="first_name", insertable = false)
     String handlerFirstName;
 
-    @Column(name="last_name")
+    @Column(name="last_name", insertable = false)
     String handlerLastName;
 
-    @Column
+    @Column(insertable = false)
     String email;
 
-    @Column
+    @Column(insertable = false)
     String phone;
 
     @Column
     private boolean adopted;
 
-    @Column
+    @Column(insertable = false)
     @Enumerated(EnumType.STRING)
     private SpeciesType species;
 
@@ -51,9 +59,10 @@ public class Pet {
 
     @Column
     @Enumerated(EnumType.STRING)
+    @Type(type = "pet_size")
     private PetSize size;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false)
     @Temporal(TemporalType.DATE)
     private Date createdAt;
 

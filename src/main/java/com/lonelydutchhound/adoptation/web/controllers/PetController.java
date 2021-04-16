@@ -1,10 +1,9 @@
 package com.lonelydutchhound.adoptation.web.controllers;
 
 import com.lonelydutchhound.adoptation.model.Pet;
-import com.lonelydutchhound.adoptation.model.Species;
-import com.lonelydutchhound.adoptation.model.User;
-import com.lonelydutchhound.adoptation.model.enums.PetSize;
 import com.lonelydutchhound.adoptation.services.PetService;
+import com.lonelydutchhound.adoptation.web.requests.PetRequest;
+import com.lonelydutchhound.adoptation.web.services.PetResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +11,14 @@ import com.lonelydutchhound.adoptation.web.responses.PetResponse;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class PetController {
 
     @Autowired
     private PetService petService;
+    @Autowired
+    private PetResponseService petResponseService;
 
     @GetMapping("/pets")
     private @ResponseBody
@@ -26,33 +26,26 @@ public class PetController {
         List<PetResponse> response = new LinkedList<>();
         List<Pet> allPets = petService.getAllPets();
 
-        allPets.forEach(pet -> response.add(new PetResponse(
-            pet.getId(),
-            pet.getName(),
-            pet.getBreed(),
-            new User(
-                    pet.getHandlerId(),
-                    pet.getHandlerFirstName(),
-                    pet.getHandlerLastName(),
-                    pet.getPhone(),
-                    pet.getEmail()
-            ),
-            new Species(
-                    pet.getSpeciesId(),
-                    pet.getSpecies()
-            ),
-            pet.isAdopted(),
-            pet.getSize(),
-            pet.getCreatedAt()
-        )));
+        allPets.forEach(pet -> {
+            PetResponse petResponse = petResponseService.getResponseBody(pet);
+            response.add(petResponse);
+        });
 
         return response;
     }
 
     @GetMapping(value="/pets/search")
     private @ResponseBody
-    List<Pet> getByName(@RequestParam("name") String name){
-        return petService.searchByName(name);
+    List<PetResponse> getByName(@RequestParam("name") String name){
+        List<PetResponse> response = new LinkedList<>();
+        List<Pet> allPets = petService.searchByName(name);
+
+        allPets.forEach(pet -> {
+            PetResponse petResponse = petResponseService.getResponseBody(pet);
+            response.add(petResponse);
+        });
+
+        return response;
     }
 
     @PostMapping(
@@ -61,23 +54,10 @@ public class PetController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     private @ResponseBody
-    Pet savePet(
-            @RequestParam String name,
-            @RequestParam(required = false) String breed,
-            @RequestParam UUID handlerId,
-            @RequestParam UUID speciesId,
-            @RequestParam(required = false) PetSize petSize
-            ) {
-        Pet.PetBuilder petBuilder = new Pet.PetBuilder()
-                .setName(name)
-                .setHandlerId(handlerId)
-                .setSpeciesId(speciesId);
+    PetResponse savePet(@RequestBody PetRequest request) {
+        Pet pet = petService.buildPetFromRequest(request);
+        PetResponse response = petResponseService.getResponseBody(petService.savePet(pet));
 
-        if (breed != null && !breed.isBlank()) petBuilder.setBreed(breed);
-        if (petSize != null) petBuilder.setSize(petSize);
-
-        Pet newPet = petBuilder.build();
-
-        return petService.savePet(newPet);
+        return response;
     }
 }

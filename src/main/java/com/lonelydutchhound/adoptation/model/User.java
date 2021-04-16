@@ -22,57 +22,58 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone")
     private String phoneNumber;
 
     @Column
     private String email;
 
-    @Column(name = "is_handler")
-    private boolean isHandler;
-
     @Column(name = "created_at")
     @Temporal(TemporalType.DATE)
     private Date createdAt;
 
-    public User(@NonNull String firstName, @NonNull String email) {
-        this.firstName = firstName;
-        this.email = email;
+    private User(UserBuilder builder){
+        id = builder.id;
+        firstName = builder.firstName;
+        lastName = builder.lastName;
+        phoneNumber = builder.phoneNumber;
+        email = builder.email;
     }
 
-    public User(@NonNull String firstName, String lastName, @NonNull String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
+    public static class UserBuilder {
+        private UUID id;
+        private String firstName;
+        private String lastName;
+        private String phoneNumber;
+        private String email;
 
-    public User(@NonNull String firstName, String lastName, String phoneNumber, @NonNull String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
+        public UserBuilder setId(UUID id){
+            this.id = id;
+            return this;
+        }
 
-    public User(@NonNull String firstName, String lastName, @NonNull String email, boolean isHandler) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.isHandler = isHandler;
-    }
+        public UserBuilder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
 
-    public User(@NonNull String firstName, String lastName, String phoneNumber, @NonNull String email, boolean isHandler) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.isHandler = isHandler;
-    }
+        public UserBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
 
-    public User(UUID id, @NonNull String firstName, String lastName, String phoneNumber, @NonNull String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+        public UserBuilder setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public User build(){
+            return new User(this);
+        }
     }
 }
