@@ -15,7 +15,6 @@ public class PetResponseService implements ResponseService<PetResponse, Pet> {
 
     public PetResponse getResponseBody(Pet pet) {
         PetResponse.PetResponseBuilder responseBuilder = new PetResponse.PetResponseBuilder();
-        Profile.ProfileBuilder profileBuilder = new Profile.ProfileBuilder();
         Profile handler = profileService.getProfileById(pet.getHandlerId());
 
         return responseBuilder
