@@ -1,7 +1,7 @@
 package com.lonelydutchhound.adoptation.web.responses;
 
 import com.lonelydutchhound.adoptation.model.Species;
-import com.lonelydutchhound.adoptation.model.User;
+import com.lonelydutchhound.adoptation.model.Profile;
 import com.lonelydutchhound.adoptation.model.enums.PetSize;
 import lombok.Value;
 
@@ -13,7 +13,7 @@ public class PetResponse {
     UUID id;
     String name;
     String breed;
-    User petHandler;
+    Profile petHandler;
     Species petSpecies;
     boolean adopted;
     PetSize size;
@@ -34,7 +34,7 @@ public class PetResponse {
         UUID id;
         String name;
         String breed;
-        User petHandler;
+        Profile petHandler;
         Species petSpecies;
         boolean adopted;
         PetSize size;
@@ -55,7 +55,7 @@ public class PetResponse {
             return this;
         }
 
-        public PetResponseBuilder setPetHandler(User petHandler) {
+        public PetResponseBuilder setPetHandler(Profile petHandler) {
             this.petHandler = petHandler;
             return this;
         }

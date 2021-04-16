@@ -9,8 +9,8 @@ import java.util.UUID;
 @ToString
 @Getter
 @NoArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "profile")
+public class Profile {
 
     @Id
     @GeneratedValue
@@ -32,7 +32,7 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date createdAt;
 
-    private User(UserBuilder builder){
+    private Profile(ProfileBuilder builder){
         id = builder.id;
         firstName = builder.firstName;
         lastName = builder.lastName;
@@ -40,40 +40,40 @@ public class User {
         email = builder.email;
     }
 
-    public static class UserBuilder {
+    public static class ProfileBuilder {
         private UUID id;
         private String firstName;
         private String lastName;
         private String phoneNumber;
         private String email;
 
-        public UserBuilder setId(UUID id){
+        public ProfileBuilder setId(UUID id){
             this.id = id;
             return this;
         }
 
-        public UserBuilder setFirstName(String firstName) {
+        public ProfileBuilder setFirstName(String firstName) {
             this.firstName = firstName;
             return this;
         }
 
-        public UserBuilder setLastName(String lastName) {
+        public ProfileBuilder setLastName(String lastName) {
             this.lastName = lastName;
             return this;
         }
 
-        public UserBuilder setPhoneNumber(String phoneNumber) {
+        public ProfileBuilder setPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
             return this;
         }
 
-        public UserBuilder setEmail(String email) {
+        public ProfileBuilder setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public User build(){
-            return new User(this);
+        public Profile build(){
+            return new Profile(this);
         }
     }
 }
