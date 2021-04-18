@@ -33,15 +33,10 @@ public class PetController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    ResponseEntity<Pet> savePet(@RequestBody PetRequest request) {
+    Pet savePet(@RequestBody PetRequest request) {
         Pet pet = petService.buildPetFromRequest(request);
 
-        try {
-            Pet newPet = petService.savePet(pet);
+        return petService.savePet(pet);
 
-            return new ResponseEntity<>(newPet, HttpStatus.OK);
-        } catch (DataAccessException e) {
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
     }
 }
