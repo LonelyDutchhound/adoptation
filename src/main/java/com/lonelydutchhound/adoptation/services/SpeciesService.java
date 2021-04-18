@@ -14,5 +14,5 @@ public class SpeciesService {
     @Autowired
     private SpeciesRepository speciesRepository;
 
-    public Species getSpeciesById(UUID id) { return speciesRepository.findById(id).orElse(null); }
+    public Species getSpeciesById(UUID id) { return speciesRepository.findById(id).orElseThrow(); }
 }

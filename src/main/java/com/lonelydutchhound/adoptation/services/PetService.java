@@ -7,9 +7,12 @@ import com.lonelydutchhound.adoptation.repos.PetRepository;
 import com.lonelydutchhound.adoptation.web.requests.PetRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -25,12 +28,22 @@ public class PetService {
     public Pet buildPetFromRequest(PetRequest request) {
         UUID handlerId = request.getHandlerId();
         UUID speciesId = request.getSpeciesId();
+        Profile handler;
+        Species species;
 
-        // or throw? need to proceed the situation properly
-        if (handlerId == null || speciesId == null) return null;
+        if (handlerId == null || speciesId == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
-        Profile handler = profileService.getProfileById(handlerId);
-        Species species = speciesService.getSpeciesById(speciesId);
+        try {
+            handler = profileService.getProfileById(handlerId);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Handler not found", e);
+        }
+
+        try {
+            species = speciesService.getSpeciesById(speciesId);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Species not found", e);
+        }
 
         return new Pet.PetBuilder()
                 .setName(request.getName())
