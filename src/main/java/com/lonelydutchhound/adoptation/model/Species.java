@@ -4,6 +4,7 @@ import com.lonelydutchhound.adoptation.model.enums.SpeciesType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class Species {
     private UUID id;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private SpeciesType species;
 
     public Species(UUID id, SpeciesType species) {

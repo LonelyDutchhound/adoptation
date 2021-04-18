@@ -14,11 +14,11 @@ import java.util.UUID;
 public interface PetRepository extends JpaRepository<Pet, UUID> {
 
     @Override
-    @Query(value = "SELECT * FROM pets p JOIN species s ON p.species_id = s.id JOIN profile pf ON p.handlers_id = pf.id", nativeQuery = true)
+    @Query(value = "SELECT * FROM pets p JOIN species s ON p.species_id = s.id", nativeQuery = true)
     @NonNull
     List<Pet> findAll();
 
     @Query(value = "SELECT * FROM pets p JOIN species s ON p.species_id = s.id JOIN profile pf ON p.handlers_id = pf.id WHERE p.name iLIKE %:name%", nativeQuery = true)
-    List<Pet> searchByName(@Param("name") String name);
+    List<Pet> findByName(@Param("name") String name);
 
 }

@@ -6,8 +6,10 @@ import com.lonelydutchhound.adoptation.model.enums.SpeciesType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.UUID;
 
@@ -32,30 +34,18 @@ public class Pet {
     @Column
     private String breed;
 
-    @Column(name = "handlers_id")
-    private UUID handlerId;
-
-    @Column(name="first_name", insertable = false)
-    String handlerFirstName;
-
-    @Column(name="last_name", insertable = false)
-    String handlerLastName;
-
-    @Column(insertable = false)
-    String email;
-
-    @Column(insertable = false)
-    String phone;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "handlers_id", referencedColumnName = "id")
+    @NotNull(message = "Handler is mandatory")
+    private Profile handler;
 
     @Column
     private boolean adopted;
 
-    @Column(insertable = false)
-    @Enumerated(EnumType.STRING)
-    private SpeciesType species;
-
-    @Column(name="species_id")
-    private UUID speciesId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "species_id", referencedColumnName = "id")
+    @NotNull(message = "Species is mandatory")
+    private Species species;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -69,9 +59,9 @@ public class Pet {
     private Pet(PetBuilder builder) {
         name = builder.name;
         breed = builder.breed;
-        handlerId = builder.handlerId;
+        handler = builder.handler;
         adopted = builder.adopted;
-        speciesId = builder.speciesId;
+        species = builder.species;
         size = builder.size;
     }
 
@@ -80,10 +70,10 @@ public class Pet {
 
         private String name;
         private String breed;
-        private UUID handlerId;
+        private Profile handler;
         private boolean adopted;
         private PetSize size;
-        private UUID speciesId;
+        private Species species;
 
         public PetBuilder setName(String name) {
             this.name = name;
@@ -97,8 +87,8 @@ public class Pet {
             return this;
         }
 
-        public PetBuilder setHandlerId(UUID handlerId) {
-            this.handlerId = handlerId;
+        public PetBuilder setHandler(Profile handler) {
+            this.handler = handler;
 
             return this;
         }
@@ -109,8 +99,8 @@ public class Pet {
             return this;
         }
 
-        public PetBuilder setSpeciesId(UUID speciesId) {
-            this.speciesId = speciesId;
+        public PetBuilder setSpecies(Species species) {
+            this.species = species;
 
             return this;
         }

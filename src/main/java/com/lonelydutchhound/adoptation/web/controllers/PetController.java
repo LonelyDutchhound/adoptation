@@ -3,13 +3,13 @@ package com.lonelydutchhound.adoptation.web.controllers;
 import com.lonelydutchhound.adoptation.model.Pet;
 import com.lonelydutchhound.adoptation.services.PetService;
 import com.lonelydutchhound.adoptation.web.requests.PetRequest;
-import com.lonelydutchhound.adoptation.web.services.PetResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.lonelydutchhound.adoptation.web.responses.PetResponse;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -17,35 +17,15 @@ public class PetController {
 
     @Autowired
     private PetService petService;
-    @Autowired
-    private PetResponseService petResponseService;
 
     @GetMapping("/pets")
-    private @ResponseBody
-    List<PetResponse> getAllPets(){
-        List<PetResponse> response = new LinkedList<>();
-        List<Pet> allPets = petService.getAllPets();
-
-        allPets.forEach(pet -> {
-            PetResponse petResponse = petResponseService.getResponseBody(pet);
-            response.add(petResponse);
-        });
-
-        return response;
+    List<Pet> getAllPets(){
+        return petService.getAllPets();
     }
 
     @GetMapping(value="/pets/search")
-    private @ResponseBody
-    List<PetResponse> getByName(@RequestParam("name") String name){
-        List<PetResponse> response = new LinkedList<>();
-        List<Pet> allPets = petService.searchByName(name);
-
-        allPets.forEach(pet -> {
-            PetResponse petResponse = petResponseService.getResponseBody(pet);
-            response.add(petResponse);
-        });
-
-        return response;
+    List<Pet> getByName(@RequestParam("name") String name){
+        return petService.findByName(name);
     }
 
     @PostMapping(
@@ -53,11 +33,15 @@ public class PetController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    private @ResponseBody
-    PetResponse savePet(@RequestBody PetRequest request) {
+    ResponseEntity<Pet> savePet(@RequestBody PetRequest request) {
         Pet pet = petService.buildPetFromRequest(request);
-        PetResponse response = petResponseService.getResponseBody(petService.savePet(pet));
 
-        return response;
+        try {
+            Pet newPet = petService.savePet(pet);
+
+            return new ResponseEntity<>(newPet, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 }
