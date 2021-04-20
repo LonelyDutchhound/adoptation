@@ -2,11 +2,9 @@ package com.lonelydutchhound.adoptation.model;
 
 import com.lonelydutchhound.adoptation.model.enums.PetSize;
 import com.lonelydutchhound.adoptation.model.enums.PostgreSQLEnumType;
-import com.lonelydutchhound.adoptation.model.enums.SpeciesType;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
