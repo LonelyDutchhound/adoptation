@@ -38,12 +38,12 @@ public class ProfileController {
     }
 
     @PostMapping("/profiles")
-    public ResponseEntity<Profile> createProfile(@RequestBody @Valid Profile request, BindingResult bindingResult){
+    public ResponseEntity<Profile> createProfile(@Valid @RequestBody Profile request, BindingResult bindingResult){
         if (!bindingResult.hasErrors()) {
             Profile profile = profileService.saveProfile(request);
 
             return ResponseEntity
-                    .created(URI.create("/customers/" + profile.getId()))
+                    .created(URI.create("/profiles/" + profile.getId()))
                     .body(profile);
         } else
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Request contains incorrect data = [%s]", getErrors(bindingResult)));
