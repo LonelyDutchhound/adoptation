@@ -33,7 +33,7 @@ public class PetController {
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    Pet savePet(@RequestBody PetRequest request) {
+    Pet createPet(@RequestBody PetRequest request) {
         Pet pet = petService.buildPetFromRequest(request);
 
         return petService.savePet(pet);
