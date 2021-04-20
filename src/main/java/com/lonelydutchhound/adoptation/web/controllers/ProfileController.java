@@ -3,13 +3,17 @@ package com.lonelydutchhound.adoptation.web.controllers;
 import com.lonelydutchhound.adoptation.model.Profile;
 import com.lonelydutchhound.adoptation.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,8 +36,15 @@ public class ProfileController {
     }
 
     @PostMapping("/profiles")
-    public Profile createProfile(@RequestBody @Valid Profile request){
-            return profileService.saveProfile(request);
+    public ResponseEntity<Profile> createProfile(@RequestBody @Valid Profile request, BindingResult bindingResult){
+        if (!bindingResult.hasErrors()) {
+            Profile profile = profileService.saveProfile(request);
+
+            return ResponseEntity
+                    .created(URI.create("/customers/" + profile.getId()))
+                    .body(profile);
+        } else
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Request contains incorrect data = [%s]", getErrors(bindingResult)));
     }
 
     private String getErrors(BindingResult bindingResult) {
