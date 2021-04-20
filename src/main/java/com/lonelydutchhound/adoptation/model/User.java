@@ -2,10 +2,11 @@ package com.lonelydutchhound.adoptation.model;
 
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Size;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "users")
