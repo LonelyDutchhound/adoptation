@@ -20,13 +20,21 @@ public class ProfileService {
         return profileRepository.findAll();
     }
 
-    public Profile getProfileById(UUID id){
+    public Profile getProfileById(UUID id) {
         return profileRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public boolean existProfileById(UUID id) {
+        return profileRepository.existsById(id);
     }
 
     public Profile findProfileById(UUID id) { return profileRepository.getOne(id); }
 
     public Profile saveProfile(Profile profile) {
         return profileRepository.save(profile);
+    }
+
+    public void deleteProfileById(UUID id) {
+        profileRepository.deleteById(id);
     }
 }

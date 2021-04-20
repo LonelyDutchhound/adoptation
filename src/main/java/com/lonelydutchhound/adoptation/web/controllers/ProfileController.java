@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 @RestController
 @Validated
 public class ProfileController {
@@ -45,6 +47,16 @@ public class ProfileController {
                     .body(profile);
         } else
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Request contains incorrect data = [%s]", getErrors(bindingResult)));
+    }
+
+    @DeleteMapping("/profiles/{id}")
+    public ResponseEntity delete(@PathVariable UUID id) {
+        if (profileService.existProfileById(id)) {
+            profileService.deleteProfileById(id);
+
+            return ResponseEntity.status(NO_CONTENT).build();
+        } else
+            return ResponseEntity.notFound().build();
     }
 
     private String getErrors(BindingResult bindingResult) {
