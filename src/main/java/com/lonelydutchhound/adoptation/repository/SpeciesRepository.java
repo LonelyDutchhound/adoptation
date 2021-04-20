@@ -1,4 +1,4 @@
-package com.lonelydutchhound.adoptation.repos;
+package com.lonelydutchhound.adoptation.repository;
 
 import com.lonelydutchhound.adoptation.model.Species;
 import org.springframework.data.jpa.repository.JpaRepository;

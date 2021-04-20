@@ -1,0 +1,70 @@
+package com.lonelydutchhound.adoptation.services;
+
+import com.lonelydutchhound.adoptation.model.Role;
+import com.lonelydutchhound.adoptation.model.User;
+import com.lonelydutchhound.adoptation.repository.UserRepository;
+import com.lonelydutchhound.adoptation.security.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    public String signin(String username, String password) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRole());
+        } catch (AuthenticationException e) {
+            throw new RuntimeException("Invalid username/password supplied");
+        }
+    }
+
+    public String signup(User user) {
+        if (!userRepository.existsByUsername(user.getUsername())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return jwtTokenProvider.createToken(user.getUsername(), user.getRole());
+        } else {
+            throw new RuntimeException("Username is already in use");
+        }
+    }
+
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
+    }
+
+    public User search(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("The user doesn't exist");
+        }
+        return user;
+    }
+
+    public User whoami(HttpServletRequest req) {
+        return userRepository.findByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
+    }
+
+    public String refresh(String username) {
+        return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRole());
+    }
+
+}
