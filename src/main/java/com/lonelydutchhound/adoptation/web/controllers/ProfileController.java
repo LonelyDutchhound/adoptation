@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -33,12 +32,12 @@ public class ProfileController {
     }
 
     @GetMapping("/profiles/{id}")
-    Profile getProfileById(@PathVariable UUID id)  {
-            return profileService.getProfileById(id);
+    Profile getProfileById(@PathVariable UUID id) {
+        return profileService.getProfileById(id);
     }
 
     @PostMapping("/profiles")
-    public ResponseEntity<Profile> createProfile(@Valid @RequestBody Profile request, BindingResult bindingResult){
+    public ResponseEntity<Profile> createProfile(@Valid @RequestBody Profile request, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             Profile profile = profileService.saveProfile(request);
 

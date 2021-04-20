@@ -4,10 +4,7 @@ import com.lonelydutchhound.adoptation.model.Pet;
 import com.lonelydutchhound.adoptation.services.PetService;
 import com.lonelydutchhound.adoptation.web.requests.PetRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +16,12 @@ public class PetController {
     private PetService petService;
 
     @GetMapping("/pets")
-    List<Pet> getAllPets(){
+    List<Pet> getAllPets() {
         return petService.getAllPets();
     }
 
-    @GetMapping(value="/pets/search")
-    List<Pet> getByName(@RequestParam("name") String name){
+    @GetMapping(value = "/pets/search")
+    List<Pet> getByName(@RequestParam("name") String name) {
         return petService.findByName(name);
     }
 
@@ -35,8 +32,6 @@ public class PetController {
     )
     Pet createPet(@RequestBody PetRequest request) {
         Pet pet = petService.buildPetFromRequest(request);
-
         return petService.savePet(pet);
-
     }
 }

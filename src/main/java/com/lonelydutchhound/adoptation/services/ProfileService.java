@@ -28,7 +28,9 @@ public class ProfileService {
         return profileRepository.existsById(id);
     }
 
-    public Profile findProfileById(UUID id) { return profileRepository.getOne(id); }
+    public Profile findProfileById(UUID id) {
+        return profileRepository.getOne(id);
+    }
 
     public Profile saveProfile(Profile profile) {
         return profileRepository.save(profile);

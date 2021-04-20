@@ -2,11 +2,16 @@ package com.lonelydutchhound.adoptation.model;
 
 import com.lonelydutchhound.adoptation.model.enums.PetSize;
 import com.lonelydutchhound.adoptation.model.enums.PostgreSQLEnumType;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.UUID;
@@ -111,7 +116,14 @@ public class Pet {
 
 
         public Pet build() {
-            return new Pet(this);
+            Pet pet = new Pet(this);
+
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+
+            validator.validate(pet);
+
+            return pet;
         }
 
     }
