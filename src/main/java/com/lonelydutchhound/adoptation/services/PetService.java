@@ -6,10 +6,9 @@ import com.lonelydutchhound.adoptation.DTO.SpeciesDTO;
 import com.lonelydutchhound.adoptation.model.Pet;
 import com.lonelydutchhound.adoptation.model.Profile;
 import com.lonelydutchhound.adoptation.model.Species;
-import com.lonelydutchhound.adoptation.repos.PetRepository;
+import com.lonelydutchhound.adoptation.repository.PetRepository;
 import com.lonelydutchhound.adoptation.web.requests.PetRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -57,7 +56,7 @@ public class PetService {
                 .build();
     }
 
-    public List<Pet> getAllPets(){
+    public List<Pet> getAllPets() {
         return petRepository.findAll();
     }
 
