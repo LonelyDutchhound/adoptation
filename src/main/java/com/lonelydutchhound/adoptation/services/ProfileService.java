@@ -1,7 +1,9 @@
 package com.lonelydutchhound.adoptation.services;
 
+import com.lonelydutchhound.adoptation.DTO.CommonProfileDTO;
 import com.lonelydutchhound.adoptation.model.Profile;
 import com.lonelydutchhound.adoptation.repos.ProfileRepository;
+import com.lonelydutchhound.adoptation.services.DTOmappers.ProfileMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

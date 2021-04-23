@@ -1,13 +1,14 @@
 package com.lonelydutchhound.adoptation.web.controllers;
 
+import com.lonelydutchhound.adoptation.DTO.CommonProfileDTO;
 import com.lonelydutchhound.adoptation.model.Profile;
+import com.lonelydutchhound.adoptation.services.DTOmappers.ProfileMapService;
 import com.lonelydutchhound.adoptation.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,13 +20,15 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@Validated
 public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private ProfileMapService profileMapService;
 
     @GetMapping("/profiles")
     List<Profile> getAllProfiles() {
@@ -33,8 +36,13 @@ public class ProfileController {
     }
 
     @GetMapping("/profiles/{id}")
-    Profile getProfileById(@PathVariable UUID id)  {
-            return profileService.getProfileById(id);
+    ResponseEntity<CommonProfileDTO> getProfileById(@PathVariable UUID id)  {
+        CommonProfileDTO commonProfileDTO = profileMapService.convertToCommonProfileDTO(
+                profileService.getProfileById(id)
+        );
+        return ResponseEntity
+                .status(OK)
+                .body(commonProfileDTO);
     }
 
     @PostMapping("/profiles")

@@ -1,5 +1,8 @@
 package com.lonelydutchhound.adoptation.services;
 
+import com.lonelydutchhound.adoptation.DTO.CommonProfileDTO;
+import com.lonelydutchhound.adoptation.DTO.PetDTO;
+import com.lonelydutchhound.adoptation.DTO.SpeciesDTO;
 import com.lonelydutchhound.adoptation.model.Pet;
 import com.lonelydutchhound.adoptation.model.Profile;
 import com.lonelydutchhound.adoptation.model.Species;
@@ -36,13 +39,13 @@ public class PetService {
         try {
             handler = profileService.getProfileById(handlerId);
         } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Handler not found", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Handler not found", e);
         }
 
         try {
             species = speciesService.getSpeciesById(speciesId);
         } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Species not found", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Species not found", e);
         }
 
         return new Pet.PetBuilder()
